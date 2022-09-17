@@ -50,6 +50,22 @@ Cypress.Commands.add('PrencherFormularioParcialmente', (empresa, site, address, 
     cy.get('[data-test="profile-bio"]').type(bio)
 })
 
+import user from "../fixtures/multi-usuario.json"
+
+Cypress.Commands.add('token', () => {
+    cy.request({
+        method: 'POST',
+        url: 'api/auth',
+        body: {
+            "email": user[0].usuario,
+            "password": user[0].senha
+        }
+    }).then((response) => {
+        expect(response.status).to.equal(200)
+        return response.body.jwt
+    })
+})
+
 //
 //
 // -- This is a child command --
